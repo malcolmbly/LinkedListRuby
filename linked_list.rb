@@ -35,6 +35,25 @@ class LinkedList
     @size += 1
   end
 
+  def insert_at(value, index)
+    raise IndexError.new('Cannot access index outside of linked list bounds.') if index >= @size
+    current_node = @head
+    index.times do
+      current_node = current_node.next
+    end
+    new_node = Node.new(value, current_node.next)
+    current_node.next = new_node
+  end
+
+  def remove_at(index)
+    raise IndexError.new('Cannot access index outside of linked list bounds.') if index >= @size
+    current_node = @head
+    (index - 1).times do
+      current_node = current_node.next
+    end
+    current_node.next = current_node.next.next
+  end
+
   def at(index)
     raise IndexError.new('Cannot access index outside of linked list bounds.') if index >= @size
 
@@ -100,11 +119,14 @@ list.append(1)
 list.append(2)
 list.append(3)
 list.append(4)
-p list.pop
 # p list.pop
 # p list.at(0)
 list.append(7)
 # p list.contains?(7)
 # p list.contains?(8)
 p list.find(3)
+puts list
+list.insert_at(68, 1)
+puts list
+list.remove_at(2)
 puts list
