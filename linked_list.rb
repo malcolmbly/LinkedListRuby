@@ -51,6 +51,7 @@ class LinkedList
         node = @tail
         @tail = n
         n.next = nil
+        @size -= 1
         return node
       end
       next
@@ -65,6 +66,33 @@ class LinkedList
     end
     self
   end
+
+  def each_with_index
+    node = @head
+    i = 0
+    until node.nil?
+      yield node, i
+      node = node.next
+      i += 1
+    end
+    self
+  end
+
+  def contains?(value)
+    each { |n| return true if n.value == value }
+    false
+  end
+
+  def find(value)
+    each_with_index { |n, idx| return idx if n.value == value }
+    nil
+  end
+
+  def to_s
+    string = ""
+    each { |n| string += "( #{n.value} ) -> " }
+    string += 'nil'
+  end
 end
 
 list = LinkedList.new
@@ -73,4 +101,10 @@ list.append(2)
 list.append(3)
 list.append(4)
 p list.pop
-p list.pop
+# p list.pop
+# p list.at(0)
+list.append(7)
+# p list.contains?(7)
+# p list.contains?(8)
+p list.find(3)
+puts list
